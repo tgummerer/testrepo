@@ -28,3 +28,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         uses: pulumi/actions@9f8e7244ee2115447d137c35e85c3f730d08049a
+        with:
+          pulumi-version: dev
