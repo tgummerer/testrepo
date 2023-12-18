@@ -25,6 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-go@v5
+        id: setup-go
+
       - name: run things
         run: echo "$GOPROXY"
       # Runs a single command using the runners shell
