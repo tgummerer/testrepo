@@ -55,10 +55,9 @@ jobs:
       dev-version: "${{ steps.strip-prefix.outputs.dev-version }}"
 
   show:
+    runs-on: ubuntu-latest
+    needs: [build]
     steps:
       - name: show var
-        needs: [build]
-        steps:
-          - name: test
-            run: |
+        run: |
               echo "${{ needs.build.outputs.dev-version }}"
