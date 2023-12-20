@@ -56,4 +56,4 @@ jobs:
     steps:
       - name: show var
         run: |
-              echo "${{ needs.build.outputs.dev-version }}"
+              echo ${{ needs.build.outputs.dev-version }}
