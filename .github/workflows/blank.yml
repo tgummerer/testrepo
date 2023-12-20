@@ -46,7 +46,8 @@ jobs:
         run: |
           version="${{ steps.ghd.outputs.describe }}"
           version="${version#v}"
-          echo "dev-version=$version" >> ${GITHUB_OUTPUT}
+          ESCAPED="$(echo -n "${version}" | jq -Rsc ".")" # JSON encode
+          echo "dev-version=${ESCAPED}" >> ${GITHUB_OUTPUT}
     outputs:
       dev-version: "${{ steps.strip-prefix.outputs.dev-version }}"
 
