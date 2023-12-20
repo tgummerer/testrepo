@@ -42,24 +42,3 @@ jobs:
           echo "distance  : ${{ steps.ghd.outputs.distance }}"
           echo "sha       : ${{ steps.ghd.outputs.sha }}"
           echo "short-sha : ${{ steps.ghd.outputs.short-sha }}"
-      - name: strip prefix
-        id: strip-prefix
-        run: |
-          version="${{ steps.ghd.outputs.describe }}"
-          version="${version#v}"
-          ESCAPED="$(echo -n "${version}" | jq -Rsc ".")" # JSON encode
-          echo "dev-version=${ESCAPED}" >> ${GITHUB_OUTPUT}
-    outputs:
-      dev-version: "${{ steps.strip-prefix.outputs.dev-version }}"
-
-  show:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: show var
-        env:
-          VERSION: ${{ steps.build.outputs.dev-version }}
-        run: |
-              echo ${{ needs.build.outputs.dev-version }}
-              env
-              echo $VERSION
