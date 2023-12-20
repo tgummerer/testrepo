@@ -45,3 +45,20 @@ jobs:
         uses: pulumi/actions@9f8e7244ee2115447d137c35e85c3f730d08049a
         with:
           pulumi-version: dev
+      - name: strip prefix
+        id: strip-prefix
+        run: |
+          version="${{ steps.ghd.outputs.describe }}"
+          version="${version#v}"
+          echo "dev-version=$version" >> ${GITHUB_OUTPUT}
+    outputs:
+      dev-version: "${{ steps.strip-prefix.outputs.dev-version }}"
+
+  show:
+    steps:
+      - name: show var
+        needs: [build]
+        steps:
+          - name: test
+            run: |
+              echo "${{ needs.build.outputs.dev-version }}"
