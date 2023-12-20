@@ -31,6 +31,16 @@ jobs:
       - name: run things
         run: echo "$GOPROXY"
       # Runs a single command using the runners shell
+      - name: Git describe
+        id: ghd  
+        uses: proudust/gh-describe@v1
+      - name: Check outputs
+        run: |
+          echo "describe  : ${{ steps.ghd.outputs.describe }}"
+          echo "tag       : ${{ steps.ghd.outputs.tag }}"
+          echo "distance  : ${{ steps.ghd.outputs.distance }}"
+          echo "sha       : ${{ steps.ghd.outputs.sha }}"
+          echo "short-sha : ${{ steps.ghd.outputs.short-sha }}"
       - name: Pulumi action
         uses: pulumi/actions@9f8e7244ee2115447d137c35e85c3f730d08049a
         with:
