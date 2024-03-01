@@ -29,19 +29,6 @@ jobs:
         id: setup-go
         with:
           version: v1.21.0
-
-      - uses: pulumi/actions@v3 #04758e3f485e58e3e877a2e0b9e65dc568067384
-        continue-on-error: true
-        with:
-          command: preview
-          stack-name: pulumi-test/dev
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-
       - name: bla
         run: |
-          echo $HOME
-          echo ~
-          echo $PULUMI_HOME
-          find $HOME/.pulumi
-          cat ~/.pulumi/credentials.json
+          git branch -v
