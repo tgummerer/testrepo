@@ -32,3 +32,4 @@ jobs:
       - name: bla
         run: |
           git branch -v
+          git diff origin/master...HEAD
