@@ -31,4 +31,4 @@ jobs:
           version: v1.21.0
       - name: bla
         run: |
-          git branch -v
+          find / | grep pulumi
