@@ -19,20 +19,20 @@ steps:
   displayName: 'Run a multi-line script'
 
 - task: AzureCLI@2
-  displayName: 'Run Pulumi ${{ command }}'
+  displayName: 'Run Pulumi test'
   inputs:
-       azureSubscription: ${{ parameters.azureServiceConnection }}
+       azureSubscription: 'service'
        scriptType: 'bash'
        scriptLocation: 'inlineScript'
        inlineScript: |
          export PATH=$HOME/.pulumi/bin:$PATH
          helm version
-         export AZURE_STORAGE_KEY=$(az storage account keys list -g ${{ parameters.pulumiStateResourceGroup }} -n ${{ parameters.stateStorageAccount }} --query [0].value -o json | tr -d '"')
-         export AZURE_STORAGE_ACCOUNT=${{ parameters.stateStorageAccount }}
+         export AZURE_STORAGE_KEY=$(az storage account keys list -g pulumi-dev-shared -n pulumitesting --query [0].value -o json | tr -d '"')
+         export AZURE_STORAGE_ACCOUNT=pulumitesting
          export AZURE_KEYVAULT_AUTH_VIA_CLI=true
-         export AZDO_ORG_SERVICE_URL=***org url***
+         #export AZDO_ORG_SERVICE_URL=***org url***
          export AZDO_PERSONAL_ACCESS_TOKEN=$(System.AccessToken)
-         pulumi login ${{ parameters.stateStorageContainer }}
+         pulumi login azblob://pulumitesting?storage_container=pulumitesting
          export AZURE_CLIENT_ID=$(AzureDevopsClientId)
          export ARM_CLIENT_ID=$(AzureDevopsClientId)
          export AZURE_CLIENT_SECRET =$(AzureDevopsClientSecret)
@@ -40,7 +40,5 @@ steps:
          export AZURE_TENANT_ID =$(az account show --query tenantId -o json | tr -d '"')
          export ARM_TENANT_ID=$(az account show --query tenantId -o json | tr -d '"')
          export ARM_SUBSCRIPTION_ID=$(az account show --query id -o json | tr -d '"')
-         export GITHUB_TOKEN=${{ parameters.gitHubToken }}
-         dotnet build
-         dotnet run --project ./src/Automation/Automation.csproj ${{ command }} ${{ parameters.environment }} ${{ parameters.region }} 
+         pulumi preview
 
