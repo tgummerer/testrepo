@@ -32,7 +32,7 @@ steps:
          export AZURE_KEYVAULT_AUTH_VIA_CLI=true
          #export AZDO_ORG_SERVICE_URL=***org url***
          export AZDO_PERSONAL_ACCESS_TOKEN=$(System.AccessToken)
-         pulumi login azblob://pulumitesting?storage_container=pulumitesting
+         pulumi login azblob://pulumitesting?storage_account=pulumitesting
          export AZURE_CLIENT_ID=$(AzureDevopsClientId)
          export ARM_CLIENT_ID=$(AzureDevopsClientId)
          export AZURE_CLIENT_SECRET =$(AzureDevopsClientSecret)
@@ -41,4 +41,3 @@ steps:
          export ARM_TENANT_ID=$(az account show --query tenantId -o json | tr -d '"')
          export ARM_SUBSCRIPTION_ID=$(az account show --query id -o json | tr -d '"')
          pulumi preview
-
