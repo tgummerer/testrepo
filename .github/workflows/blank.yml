@@ -29,6 +29,6 @@ jobs:
         id: setup-go
         with:
           version: v1.21.0
-      - name: bla
-        run: |
-          find / | grep pulumi
+      - uses: pulumi/actions@v5
+        with:
+          pulumi-version: latest
