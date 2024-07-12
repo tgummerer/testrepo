@@ -25,10 +25,4 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v5
-        id: setup-go
-        with:
-          version: v1.21.0
-      - uses: pulumi/actions@v5
-        with:
-          pulumi-version: latest
+      - run: df
