@@ -29,6 +29,9 @@ jobs:
         id: setup-go
         with:
           version: v1.21.0
-      - name: bla
+      - name: fio
         run: |
-          find / | grep pulumi
+          apt-get install fio
+          fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --bs=4k --iodepth=64 --readwrite=randrw --rwmixread=75 --size=4G --filename=/dev/shm/test.file
+          rm /dev/shm/test.file
+          fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --bs=4k --iodepth=64 --readwrite=randrw --rwmixread=75 --size=4G --filename=./test.file
