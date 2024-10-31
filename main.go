@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	ticker := time.NewTicker(20 * time.Second)
+	ticker := time.NewTicker(1 * time.Minute)
 	totalDuration := 10 * time.Minute
 	start := time.Now()
 	i := 0
