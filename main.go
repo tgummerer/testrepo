@@ -1,11 +1,22 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"fmt"
+	"time"
 )
 
 func main() {
-	pulumi.Run(func(ctx *pulumi.Context) error {
-		return nil
-	})
+	ticker := time.NewTicker(20 * time.Second)
+	totalDuration := 10 * time.Minute
+	start := time.Now()
+	for i := 0; ; i++ {
+		select {
+		case <-ticker.C:
+			fmt.Println("Hello, World!", time.Now())
+			if time.Since(start) > totalDuration {
+				fmt.Println("Total duration reached", i, "expected", totalDuration/20*time.Second)
+				return
+			}
+		}
+	}
 }

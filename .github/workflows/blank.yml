@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     continue-on-error: true
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -28,10 +28,8 @@ jobs:
       - uses: actions/setup-go@v5
         id: setup-go
         with:
-          version: v1.21.0
-      - name: fio
+          go-version: v1.21.0
+
+      - name: bla
         run: |
-          sudo apt install fio
-          fio --randrepeat=1 --ioengine=libaio --gtod_reduce=1 --name=test --bs=4k --iodepth=64 --readwrite=randrw --rwmixread=75 --size=4G --filename=/dev/shm/test.file
-          rm /dev/shm/test.file
-          fio --randrepeat=1 --ioengine=libaio --gtod_reduce=1 --name=test --bs=4k --iodepth=64 --readwrite=randrw --rwmixread=75 --size=4G --filename=./test.file
+          go run main.go
