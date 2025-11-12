@@ -27,4 +27,8 @@ jobs:
 
       - uses: pulumi/actions@012e6fd65fe1310b6341ed34de16d479c2e1b3f1
         with:
+          command: preview
+          stack-name: dev
           omit-stdout: true
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
