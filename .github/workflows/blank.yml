@@ -25,6 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - uses: pulumi/actions@v6
+      - uses: pulumi/actions@012e6fd65fe1310b6341ed34de16d479c2e1b3f1
         with:
           omit-stdout: true
