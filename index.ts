@@ -4,6 +4,7 @@ import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 import * as fs from "fs";
 import * as mime from "mime";
+import * as path from "path";
 
 // Create a bucket and expose a website index document
 const siteBucket = new aws.s3.Bucket("s3-website-bucket", {
@@ -26,10 +27,37 @@ const publicAccessBlock = new aws.s3.BucketPublicAccessBlock("public-access-bloc
 
 const siteDir = "www"; // directory for content files
 
-// For each file in the directory, create an S3 object stored in `siteBucket`
-for (const item of fs.readdirSync(siteDir)) {
-    const filePath = require("path").join(siteDir, item);
-    const siteObject = new aws.s3.BucketObject(item, {
+// Recursively walk a directory and return all file paths
+function walkDirectory(dir: string): string[] {
+    const files: string[] = [];
+    const items = fs.readdirSync(dir);
+
+    for (const item of items) {
+        const fullPath = path.join(dir, item);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            // Recursively walk subdirectories
+            files.push(...walkDirectory(fullPath));
+        } else if (stat.isFile()) {
+            // Add file to the list
+            files.push(fullPath);
+        }
+    }
+
+    return files;
+}
+
+// Get all files recursively from the site directory
+const allFiles = walkDirectory(siteDir);
+
+// For each file, create an S3 object stored in `siteBucket`
+for (const filePath of allFiles) {
+    // Get the relative path from siteDir to use as the S3 key
+    const relativeFilePath = path.relative(siteDir, filePath);
+
+    // Create S3 object with the relative path as the key
+    const siteObject = new aws.s3.BucketObject(relativeFilePath, {
         bucket: siteBucket,                               // reference the s3.Bucket object
         source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
         contentType: mime.getType(filePath) || undefined, // set the MIME type of the file
